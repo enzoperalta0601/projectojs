@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor online</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./conversor.css">
+</head>
+<body>
+    <div class="conversor">
+        <form id="formulario">
+            <h1>Conversor online</h1>
+
+            <!-- Seleccionar la divisa -->
+            <div class="elegir_moneda">
+                <h3>Seleccioná la divisa</h3>
+                <div class="opciones">
+                    <div class="form_group">
+                        <input type="radio" name="moneda" id="dolar" value="dolar">
+                        <label for="dolar">Dolar</label>
+                    </div>
+                    <div class="form_group">
+                        <input type="radio" name="moneda" id="euro" value="euro">
+                        <label for="euro">Euro</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pesos -->
+            <div class="cuanto_quiero">
+                <h3>Ingresá el monto en pesos</h3>
+                <div class="form_group">
+                    <input type="text" name="pesos" id="pesos">
+                    
+                </div>
+            </div>
+            
+            <button id="aplicarPesos">Convertir</button>
+
+
+            <!-- Euro / Dolar -->
+            <div class="resultado">
+                <h3>Resultado</h3>
+                <div class="form_group resultadoFinal">
+                    <input type="text" name="resultado" id="resultado">
+                    <div class="moneda_container">
+                        <div class="moneda">Resultado</div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="./conversor.js"></script>
+</body>
+</html>
