@@ -22,6 +22,6 @@ function conversor(e) {
  pesos = document.querySelector("#pesos").value;
 
  // Aplicar el resultado
- document.querySelector("#resultado").value = pesos * montodivisa;
+ document.querySelector("#resultado").value = pesos / montodivisa;
  document.querySelector(".moneda").innerHTML = moneda;
 }
