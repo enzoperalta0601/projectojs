@@ -1,17 +1,17 @@
 var divisas = [
  {
   nombre: "Dólares",
-  id: "dolar",
+  id: "2",
   cotizacion: 300,
  },
  {
   nombre: "Euros",
-  id: "euro",
+  id: "3",
   cotizacion: 315,
  },
  {
   nombre: "Libras",
-  id: "libra",
+  id: "4",
   cotizacion: 345,
  },
 ];
