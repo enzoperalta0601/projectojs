@@ -9,45 +9,51 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="./conversor.css">
 </head>
 <body>
     <div class="conversor">
-        <form id="formulario">
-            <h1>Conversor online</h1>
+        
+        <h1>Conversor online</h1>
 
-            <!-- Seleccionar la divisa -->
-            <div class="elegir_moneda">
-                <h3>Seleccioná la divisa</h3>
-                <div class="opciones">
-                    
-                </div>
-            </div>
+        <div class="conversor_content">
 
-            <!-- Pesos -->
-            <div class="cuanto_quiero">
-                <h3>Ingresá el monto en pesos</h3>
+            <section class="moneda_container">
+                <label for="divisa">Seleccioná una divisa</label>
+                <select name="divisa" id="divisa">
+                    <option value selected disabled>Seleccionar...</option>
+                </select>
+            </section>
+
+            <section class="pesos_container">
+                <label for="pesos">Monto en pesos</label>
                 <div class="form_group">
-                    <input type="text" name="pesos" id="pesos">
-                    
-                </div>
-            </div>
-            
-            <button id="aplicarPesos">Convertir</button>
-
-
-            <!-- Euro / Dolar -->
-            <div class="resultado">
-                <h3>Resultado</h3>
-                <div class="form_group resultadoFinal">
-                    <input type="text" name="resultado" id="resultado">
-                    <div class="moneda_container">
-                        <div class="moneda">Resultado</div>
+                    <input type="text" name="pesos" id="pesos" pattern="[0-9\.]+">
+                    <div class="textomoneda_container">
+                        <div class="textomoneda">ARS</div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </section>
+
+            <section class="otramoneda_container">
+                <label for="otramoneda">Monto en <span class="nombremoneda">Dólares</span></label>
+                <div class="form_group">
+                    <input type="text" name="otramoneda" id="otramoneda" pattern="[0-9\.]+">
+                    <div class="textomoneda_container">
+                        <div class="textomoneda">USD</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="error_container">
+                <!-- Añadido con js -->
+            </section>
+
+        </div>
+
     </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="./conversor.js"></script>
 </body>
 </html>
