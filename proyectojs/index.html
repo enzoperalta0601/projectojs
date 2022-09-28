@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor online</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="./conversor.css">
+</head>
+<body>
+    <div class="conversor">
+        
+        <h1>Conversor online</h1>
+
+        <div class="conversor_content">
+
+            <section class="moneda_container">
+                <label for="divisa">Seleccioná una divisa</label>
+                <select name="divisa" id="divisa">
+                    <option value selected disabled>Seleccionar...</option>
+                </select>
+            </section>
+
+            <section class="pesos_container">
+                <label for="pesos">Monto en pesos</label>
+                <div class="form_group">
+                    <input type="text" name="pesos" id="pesos" pattern="[0-9\.]+">
+                    <div class="textomoneda_container">
+                        <div class="textomoneda">ARS</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="otramoneda_container">
+                <label for="otramoneda">Monto en <span class="nombremoneda">Dólares</span></label>
+                <div class="form_group">
+                    <input type="text" name="otramoneda" id="otramoneda" pattern="[0-9\.]+">
+                    <div class="textomoneda_container">
+                        <div class="textomoneda">USD</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="error_container">
+                <!-- Añadido con js -->
+            </section>
+
+        </div>
+
+    </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="./conversor.js"></script>
+</body>
+</html>
