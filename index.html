@@ -9,50 +9,68 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="./conversor.css">
 </head>
 <body>
-    <div class="conversor">
-        
-        <h1>Conversor online</h1>
-
-        <div class="conversor_content">
-
-            <section class="moneda_container">
-                <label for="divisa">Seleccioná una divisa</label>
-                <select name="divisa" id="divisa">
-                    <option value selected disabled>Seleccionar...</option>
-                </select>
-            </section>
-
-            <section class="pesos_container">
-                <label for="pesos">Monto en pesos</label>
-                <div class="form_group">
-                    <input type="text" name="pesos" id="pesos" pattern="[0-9\.]+">
-                    <div class="textomoneda_container">
-                        <div class="textomoneda">ARS</div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="otramoneda_container">
-                <label for="otramoneda">Monto en <span class="nombremoneda">Dólares</span></label>
-                <div class="form_group">
-                    <input type="text" name="otramoneda" id="otramoneda" pattern="[0-9\.]+">
-                    <div class="textomoneda_container">
-                        <div class="textomoneda">USD</div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="error_container">
-                <!-- Añadido con js -->
-            </section>
-
-        </div>
-
+    <div id="loader">
+        <div class="spinner-border text-light" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
     </div>
+    <main>
+        <div class="conversor">
+        
+            <h1>Conversor online</h1>
+    
+            <div class="conversor_content">
+                <form id="conversor">
+                    <section class="moneda_container">
+                        <label for="divisa">Seleccioná una divisa</label>
+                        <select name="divisa" id="divisa">
+                            <option value selected disabled>Seleccionar...</option>
+                        </select>
+                    </section>
+    
+                    <section class="pesos_container">
+                        <label for="pesos">Monto en pesos</label>
+                        <div class="form_group">
+                            <input type="text" name="pesos" id="pesos" pattern="[0-9\.]+">
+                            <div class="textomoneda_container">
+                                <div class="textomoneda">ARS</div>
+                            </div>
+                        </div>
+                    </section>
+    
+                    <button type="submit" class="btn btn-primary w-100">Convertir <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> </button>
+                    
+                </form>
+    
+                <section id="resultado">
+                    <div class="resultado_final">
+                        <span class="total"></span><span class="textomonedaresultado"></span>
+                    </div>
+                </section>
+    
+            </div>
+    
+        </div>
+    </main>
+    <aside>
+        <div class="tablarates">
+            <h1>Valor del peso</h1>
+            <p>La siguiente tabla muestra el valor de 1 peso argentino en otras monedas.</p>
+            <p>Fecha: <b class="fecha"></b></p>
+
+            <table class="rates table">
+                <tbody class="valores">
+                </tbody>
+            </table>
+        </div>
+    </aside>
+    
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="./conversor.js"></script>
 </body>

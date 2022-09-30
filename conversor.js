@@ -1,81 +1,92 @@
-// Código nuevo
-var divisas = [
- {
-  id: 0,
-  nombre: "Dólares",
-  simbolo: "USD",
-  cotizacion: 300,
- },
- {
-  id: 1,
-  nombre: "Euros",
-  simbolo: "EUR",
-  cotizacion: 315,
- },
- {
-  id: 2,
-  nombre: "Libras",
-  simbolo: "GBP",
-  cotizacion: 345,
- },
-];
-
 // Contruir select
+var page_status = "cargandopagina";
+const formulario = document.querySelector("#conversor");
 const selectdivisa = document.querySelector("#divisa");
 const inputpesos = document.querySelector("#pesos");
-const inputotramoneda = document.querySelector("#otramoneda");
-const textomoneda = document.querySelector(
- ".otramoneda_container .textomoneda"
-);
+const resultado = document.querySelector(".total");
+const textomoneda = document.querySelector("#resultado .textomonedaresultado");
 const nombremoneda = document.querySelector(".nombremoneda");
 
-for (let divisa of divisas) {
- selectdivisa.innerHTML =
-  selectdivisa.innerHTML +
-  `<option value="${divisa.id}">${divisa.nombre}</option>`;
-}
+const divisaguardada = localStorage.getItem("divisa");
+
+// Obtener divisas API y cargarlo al select
+var myHeaders = new Headers();
+myHeaders.append("apikey", "FbYjBvoHfRufZvFXUjTReqaq7p0TdU8S");
+
+var requestOptions = {
+ method: "GET",
+ redirect: "follow",
+ headers: myHeaders,
+};
+
+var divisas = [];
+fetch("https://api.apilayer.com/exchangerates_data/symbols", requestOptions)
+ .then((response) => response.text())
+ .then((result) => {
+  let resultadofetch = JSON.parse(result);
+  divisas = resultadofetch.symbols;
+
+  for (let divisa in divisas) {
+   let selected = "";
+   if (divisaguardada == divisa) {
+    selected = "selected";
+   }
+   selectdivisa.innerHTML =
+    selectdivisa.innerHTML +
+    `<option value="${divisa}" ${selected}>${divisas[divisa]}</option>`;
+  }
+  page_status = "cargado";
+ })
+ .catch((error) => {
+  page_status = "Error: " + error;
+ });
 
 inputpesos.value = 0;
-inputotramoneda.value = 0;
 
 // Conversor
 function conversor(event) {
+ event.preventDefault();
+ $(".btn").addClass("cargando");
+
  let current_divisa = selectdivisa.options[selectdivisa.selectedIndex].value;
+
  let current_pesos = parseFloat(inputpesos.value) || 0;
- let current_otramoneda = parseFloat(inputotramoneda.value) || 0;
 
  if (current_divisa !== "") {
-  let current_cotizacion = divisas[current_divisa].cotizacion;
-  let current_simbolo = divisas[current_divisa].simbolo;
-  let current_nombre = divisas[current_divisa].nombre;
+  localStorage.setItem("divisa", current_divisa);
 
-  nombremoneda.innerHTML = current_nombre;
-
-  console.log(current_pesos);
-  if (
-   inputpesos.checkValidity() == false ||
-   inputotramoneda.checkValidity() == false
-  ) {
+  if (inputpesos.checkValidity() == false) {
+   inputpesos.value = 0;
    Toastify({
     text: "Ingresá sólo números",
     duration: 3000,
     close: true,
     gravity: "top",
-    position: "center",
+    position: "right",
     stopOnFocus: true,
     style: {
      background: "linear-gradient(to right, #ED213A, #93291E)",
     },
    }).showToast();
   } else {
-   if (event.target.id == "pesos") {
-    inputotramoneda.value = current_pesos / current_cotizacion;
-   } else if (event.target.id == "otramoneda") {
-    inputpesos.value = current_otramoneda * current_cotizacion;
-   } else if (event.target.id == "divisa" && current_pesos !== "") {
-    inputotramoneda.value = current_pesos / current_cotizacion;
-    textomoneda.innerHTML = current_simbolo;
-   }
+   fetch(
+    "https://api.apilayer.com/exchangerates_data/convert?to=" +
+     current_divisa +
+     "&from=ARS&amount=" +
+     current_pesos,
+    requestOptions
+   )
+    .then((response) => response.text())
+    .then((result) => {
+     let resultadofetch = JSON.parse(result);
+     resultado.innerHTML = resultadofetch.result;
+     textomoneda.innerHTML = current_divisa;
+     $(".btn").removeClass("cargando");
+     $(".resultado_final").css("display", "block");
+    })
+    .catch((error) => {
+     page_status = "Error: " + error;
+    });
   }
  } else {
   Toastify({
@@ -83,7 +94,24 @@ function conversor(event) {
    duration: 3000,
    close: true,
    gravity: "top",
-   position: "center",
+   position: "right",
+   stopOnFocus: true,
+   style: {
+    background: "linear-gradient(to right, #ED213A, #93291E)",
+   },
+  }).showToast();
+ }
+}
+
+function nopermitirnumeros(event) {
+ if (inputpesos.checkValidity() == false) {
+  inputpesos.value = 0;
+  Toastify({
+   text: "Ingresá sólo números",
+   duration: 3000,
+   close: true,
+   gravity: "top",
+   position: "right",
    stopOnFocus: true,
    style: {
     background: "linear-gradient(to right, #ED213A, #93291E)",
@@ -93,6 +121,28 @@ function conversor(event) {
 }
 
 // Add event listener
-selectdivisa.addEventListener("change", conversor);
-inputpesos.addEventListener("keyup", conversor);
-inputotramoneda.addEventListener("keyup", conversor);
+formulario.addEventListener("submit", conversor);
+inputpesos.addEventListener("keyup", nopermitirnumeros);
+
+// Conseguir tabla de latest rates
+
+fetch(
+ "https://api.apilayer.com/exchangerates_data/latest?symbols=USD,EUR,GBP,AED,BRL,CAD,JPY,CNY&base=ARS",
+ requestOptions
+)
+ .then((response) => response.text())
+ .then((result) => {
+  let json = JSON.parse(result);
+
+  $(".fecha").html(json.date);
+
+  let rates = json.rates;
+
+  for (let rate in rates) {
+   $(".valores").append(
+    `<tr><th scope="row" data-rate="${rate}">${rate}</th><td data-rate="${rate}">${rates[rate]}</td></tr>`
+   );
+  }
+  $("#loader").fadeOut();
+ })
+ .catch((error) => console.log("error", error));
